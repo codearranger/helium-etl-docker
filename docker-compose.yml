@@ -1,0 +1,49 @@
+version: "2.4"
+services:
+  postgres:
+    image: "postgis/postgis:12-3.2-alpine"
+    container_name: postgres-etl
+    restart: always
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+      - '/var/data:/var/data'
+    networks:
+      - etl
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: helium_blockchain
+      POSTGRES_USER: etl
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    restart: unless-stopped
+
+  etl:
+    image: helium/etl:1.1.135
+    build:
+      context: https://github.com/helium/blockchain-etl.git#1.1.135
+      network: host
+    container_name: etl
+    networks:
+      - etl
+    environment:
+      DATABASE_URL: postgresql://etl:password@postgres:5432/helium_blockchain
+      GOOGLE_MAPS_API_KEY: "api_key"
+    ports:
+      - "44158:44158/tcp"
+#      - "4369:4369/tcp"
+    volumes:
+      - 'etl:/var/data'
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    restart: unless-stopped
+
+volumes:
+  postgres:
+  etl:
+
+networks:
+  etl:
