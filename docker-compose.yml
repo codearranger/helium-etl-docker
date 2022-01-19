@@ -41,6 +41,18 @@ services:
         hard: 64000
     restart: unless-stopped
 
+  postgres_exporter:
+    image: "quay.io/prometheuscommunity/postgres-exporter:v0.10.1"
+    container_name: postgres_exporter
+    restart: always
+    networks:
+      - etl
+    environment:
+      DATA_SOURCE_NAME: postgresql://etl:password@postgres:5432/helium_blockchain?sslmode=disable
+    ports:
+      - "9187:9187/tcp"
+    restart: unless-stopped
+
 volumes:
   postgres:
   etl:
