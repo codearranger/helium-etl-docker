@@ -9,7 +9,7 @@ docker exec -it postgres-etl psql postgres etl -c 'ALTER SYSTEM SET max_wal_size
 docker exec -it postgres-etl psql postgres etl -c 'ALTER SYSTEM SET max_connections = 500;'
 docker exec -it postgres-etl psql postgres etl -c 'ALTER SYSTEM SET random_page_cost = 1.0;'
 
-docker restart postgresl-etl
+docker restart postgres-etl
 
 sleep 15
 
