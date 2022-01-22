@@ -41,6 +41,26 @@ services:
         hard: 64000
     restart: unless-stopped
 
+  api:
+    image: helium/api:1.2.122
+    build:
+      context: https://github.com/helium/blockchain-http.git#1.2.122
+      network: host
+    container_name: api
+    networks:
+      - etl
+    environment:
+      DATABASE_RO_URL: postgresql://etl:password@postgres:5432/helium_blockchain
+      DATABASE_RW_URL: postgresql://etl:password@postgres:5432/helium_blockchain
+      DATABASE_RO_POOL_SIZE: 10
+    ports:
+      - "8080:8080/tcp"
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    restart: unless-stopped
+
   postgres_exporter:
     image: "quay.io/prometheuscommunity/postgres-exporter:v0.10.1"
     container_name: postgres_exporter
