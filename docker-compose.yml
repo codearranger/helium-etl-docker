@@ -2,6 +2,7 @@ version: "2.4"
 services:
   postgres:
     image: "postgis/postgis:12-3.2-alpine"
+    shm_size: 4g
     container_name: postgres-etl
     restart: always
     volumes:
