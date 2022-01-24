@@ -11,3 +11,6 @@ docker-compose for running Helium ETL server
 ### Import postgres snapshot from https://etl-snapshots.dewi.org/
 ```import_snapshot.sh```
 * This will take a LONG LONG time
+
+## This documentation was used as reference: https://www.disk91.com/2021/technology/internet-of-things-technology/deploying-helium-etl-instance-with-api/
+ 
